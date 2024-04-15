@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# Breakpoints and Cache
+.breakpoints
+.ccls-cache
