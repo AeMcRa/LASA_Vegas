@@ -2,7 +2,6 @@
 #ifndef CARD_H
 #define CARD_H
 
-#include<iostream>
 #include<stdlib.h>
 #include<string>
 
