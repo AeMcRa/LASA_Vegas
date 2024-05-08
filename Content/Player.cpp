@@ -88,14 +88,8 @@ void User::bet(int tableBet){
 }
 
 
-/*
-super class
 
-<<<<<<< HEAD
-void Bot::bet(int tableBet){
-  //make bot actually smart
-  this->currentBet = 100;
-}
+
 
 Bot::Bot(){
 
@@ -116,9 +110,8 @@ Bot::Bot(std::string n){
   int currentBet = 0;
 
 }
-=======
-sub class with player player and ai
 
-bet function in each overload for each individual player
-*/
->>>>>>> dd9ae5dd007d63af5e5b3afeb41ce7365f6e650c
+void Bot::bet(int tableBet){
+  //make bot actually smart
+  this->currentBet = 100;
+}
