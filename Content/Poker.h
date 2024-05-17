@@ -16,6 +16,9 @@ public:
   void play();
   void gameinfo();
   void getbets();
-  void table_flip();
+  void table_flip(int cards);
+void getbets(int c);
+bool checkEndCondition();
+void determineWinner();
 };
 

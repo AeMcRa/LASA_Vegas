@@ -6,6 +6,7 @@
 #include<vector> 
 #include<string>
 #include "Card.h"
+#include <algorithm>
 
 class Player{
 public:
@@ -25,22 +26,29 @@ public:
   void draw(Card c);
   void discard();
   void gainChips(int i);
-  void bet();
   void calculatescore( std::vector<Card> cards);
+double calculateEHS( std::vector<Card>&);
+int bet(int tb,  std::vector<Card>& theCards);
+std::pair<double, double> calculateHandPotential( std::vector<Card>& hand, 
+ std::vector<Card>& communityCards);
+double calculateHandStrength( std::vector<Card>& hand, std::vector<Card>& communityCards);
 };
 
-class User: public Player{
+
+class User: public Player {
 public:
-  User();
-  User(std::string n);
 
-  std::vector<Card> hand;
-  int chips;
-  std::string name;
-  bool folded;
-  int currentBet;
+    User();
+    User(std::string n);
 
-  void bet(int tableBet);
+    std::vector<Card> hand;
+    int chips;
+    std::string name;
+    bool folded;
+    int currentBet;
+
+    void bet(int tableBet);
+
 };
 
 class Bot: public Player{
@@ -53,9 +61,7 @@ public:
   std::string name;
   bool folded;
   int currentBet;
-
-  void bet(int tableBet);
-
+void bet(int tableBet);
 };
 
 #endif 

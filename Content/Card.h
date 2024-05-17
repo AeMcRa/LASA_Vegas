@@ -21,7 +21,8 @@ public:
   bool sameSuit(Card card);
 
   std::string getName();
-    
+
+ bool operator==(const Card& other) const; 
   
 };
 

@@ -1,4 +1,3 @@
-
 #include "Card.h"
 #include <iostream>
 #include <string>
@@ -12,6 +11,9 @@ Card::Card(int r, int s){
     rank = r;
     suit = s;
    
+}
+bool Card::operator==(const Card& other) const {
+    return (rank == other.rank) && (suit == other.suit);
 }
 
 int Card::compareRank(Card card){
