@@ -5,22 +5,11 @@
 #include <vector>
 #include "Deck.h"
 
-Player::Player(){
-  
-std::vector<Card> hand;
-int chips = 0;
-std::string name = "";
-bool folded = false;
-int currentBet = 0;
-}
+Player::Player() : chips(0), folded(false), currentBet(0) {}
 
-Player::Player(std::string n){
-  std::vector<Card> hand;
-  int chips = 3000;
-  std::string name = n;
-  bool folded = false;
-  int currentBet = 0;
-}
+Player::Player(std::string n) : chips(3000), name(n), folded(false), currentBet(0) {}
+
+Player::~Player(){}
 
 std::string Player::getName(){
   return this->name;
@@ -47,18 +36,31 @@ void Player::gainChips(int i){
   chips += i;
 }
 
-int Player::bet(int tb, std::vector<Card>& theCards){
-  if(tb > chips) return 0;
-  return 80; // for now (until EHS is fixed.)
-
-  // TODO: fix -> return std::max((double)tb,chips * calculateEHS(theCards));
+std::vector<Card> Player::getHand(){
+  return hand;
 }
+
+bool Player::hasFolded(){
+  return folded;
+}
+void Player::resetFold(){
+  folded = false;
+}
+void Player::resetCurrentBet(){
+  currentBet = 0;
+}
+ /*void Player::bet(int tb, std::vector<Card>& theCards){
+  if(tb > chips) currentBet = 0;
+  currentBet = 80; // for now... 
+  // TODO:  this->bet = std::max((double)tb,chips * calculateEHS(theCards));
+}*/
+
 
 double Player::calculateEHS(std::vector<Card>& communityCards) {
     std::vector<Card> h = hand;
-    double HS = calculateHandStrength(hand, communityCards); 
-    std::pair<double,double> a = calculateHandPotential(hand,communityCards);
-    return HS * (1 - a.first) + (1 - HS) * a.second;
+    double HS = calculateHandStrength(h, communityCards); 
+    std::pair<double,double> HP = calculateHandPotential(h,communityCards);
+    return HS * (1 - HP.first) + (1 - HS) * HP.second;
 }
 
 double Player::calculateHandStrength( std::vector<Card>& hand, std::vector<Card>& communityCards) {
@@ -127,31 +129,15 @@ std::pair<double, double> Player::calculateHandPotential( std::vector<Card>& han
   return std::make_pair(PPOT, NPOT); 
 }
 
-User::User(){
-  
-  std::vector<Card> hand;
-  int chips = 0;
-  std::string name = "";
-  bool folded = false;
-  int currentBet = 0;
-  
-}
+User::User() : Player() {}
 
-User::User(std::string n){
+User::User(std::string n) : Player(n) {}
 
-  std::vector<Card> hand;
-  int chips = 3000;
-  std::string name = n;
-  bool folded = false;
-  int currentBet = 0;
-  
-}
-
-void User::bet(int tableBet){
+void User::bet(int tableBet,  std::vector<Card> & cc){
   bool valid = false;
   std::cout << "How much would you like to bet? F for fold, C for check. ";
   std::string input;
-  while(!valid)
+  while(!valid) {
   std::cin >> input;
   if(input == "F"){
     this->folded = true;
@@ -164,27 +150,13 @@ void User::bet(int tableBet){
   } else {
     this->currentBet = stoi(input);
   }
+  }
 }
 
+Bot::Bot() : Player() {}
 
-Bot::Bot(){
+Bot::Bot(std::string n) : Player(n) {}
 
-  std::vector<Card> hand;
-  int chips = 0;
-  std::string name = "";
-  bool folded = false;
-  int currentBet = 0;
-
-}
-
-Bot::Bot(std::string n){
-  std::vector<Card> hand;
-  int chips = 3000;
-  std::string name = n;
-  bool folded = false;
-  int currentBet = 0;
-}
-
-void Bot::bet(int tableBet){
-  this->currentBet = 100;
+void Bot::bet(int tableBet, std::vector<Card> & cc) {
+    currentBet = 101; // actually implement correct algo.
 }

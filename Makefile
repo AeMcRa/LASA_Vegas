@@ -1,7 +1,7 @@
 all: main
 
 CXX = g++
-override CXXFLAGS += -g -Wmost -Werror -Wno-unused-variable -std=c++11
+override CXXFLAGS += -g -Wmost -Werror -Wno-unused-variable -std=c++17
 
 SRCS = $(shell find . -name '.ccls-cache' -type d -prune -o -type f -name '*.cpp' -print | sed -e 's/ /\\ /g')
 HEADERS = $(shell find . -name '.ccls-cache' -type d -prune -o -type f -name '*.h' -print)

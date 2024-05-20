@@ -25,8 +25,10 @@ void Deck::shuffle() {
 Card& Deck::draw(){
   // Invalid card, empty deck condition.
   if(cards.empty()) {
-    Card c = Card(-1,-1);
-    return c;
+    cards.push_back(Card(-1,-1));
+    Card &invalid_draw =  cards.back();
+    cards.pop_back();
+    return invalid_draw;
   }
   shuffle();
   Card &drawn = cards.back();

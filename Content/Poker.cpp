@@ -6,7 +6,7 @@
 Poker::Poker(){
 
   std::vector<Card> cards;
-  std::vector<Player> players;
+  std::vector<Player*> players;
   int pot = 0;
   int tableBet = 0;
   deck = Deck();
@@ -17,19 +17,20 @@ void Poker::play() {
     deck = Deck(); // New deck each round
     deck.shuffle();
 
-    for (Player& x : players) {
+    for (Player* x : players) {
         Card c1 = deck.draw();
         if(c1.rank == -1 && c1.suit == -1){
             break;
         }
-        x.draw(c1);
+        x->draw(c1);
         Card c2 = deck.draw();
         if(c2.rank == -1 && c2.suit == -1){
             break;
         }
-        x.draw(c2);
-        x.folded = false; // Reset folded status
-        x.currentBet = 0; // Reset bet
+        x->draw(c2);
+        // Reset player
+        x->resetFold();
+        x->resetCurrentBet();
     }
 
     for (int round = 0; round < 4; ++round) {
@@ -56,23 +57,37 @@ void Poker::table_flip(int numCards) {
 
 void Poker::getbets(int round) {
     std::vector<Card> cc;
-    for(Player p : players){
-        for(Card c : p.hand){
+    for(Player * p : players){
+        for(Card c : p->getHand()){
             cc.push_back(c);
         }
     }
-    for (Player& p : players) {
-        if (!p.folded) {
-            p.bet(tableBet,cc);
+    for (Player* p : players) {
+        if (!p->hasFolded()) {
+            std::cout << p->getName() << " is betting.\n";
+            
+            // Call the appropriate bet function based on the type of Player
+            User* userPlayer = dynamic_cast<User*>(p);
+            if (userPlayer) {
+                userPlayer->bet(tableBet, cc);
+            } else {
+                Bot* botPlayer = dynamic_cast<Bot*>(p);
+                if (botPlayer) {
+                    botPlayer->bet(tableBet, cc);
+                }
+            }
+            
+            std::cout << "They bet " << p->getCurrentBet() << "\n";
         }
     }
 }
 
+
 void Poker::determineWinner() {
     std::vector<Player*> activePlayers;
-    for (Player& p : players) {
-        if (!p.folded) {
-            activePlayers.push_back(&p); 
+    for (Player* p : players) {
+        if (!p->hasFolded()) {
+            activePlayers.push_back(p); 
         }
     }
 
@@ -81,14 +96,15 @@ void Poker::determineWinner() {
         activePlayers[0]->gainChips(pot); 
         return; 
     }
+    // find other condition for winner...
     return;
 }
 
 
 bool Poker::checkEndCondition() {
     int playersWithChips = 0;
-    for (Player& p : players) {
-        if (p.getChips() > 0) {
+    for (Player* p : players) {
+        if (p->getChips() > 0) {
             playersWithChips++;
         }
     }

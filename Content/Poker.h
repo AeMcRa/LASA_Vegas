@@ -3,12 +3,12 @@
 #include "Deck.h"
 #include "Player.h"
 
-class Poker{
+class Poker {
 public:
   Poker();
 
   Deck deck;
-  std::vector<Player> players;
+  std::vector<Player*> players;
   int pot;
   int tableBet;
 
