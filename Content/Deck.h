@@ -10,11 +10,12 @@ class Deck{
 public:
   Deck();
  
+  // List of cards
   std::vector<Card> cards;
 
   void shuffle();
   //draw one card
-  Card draw();
+  Card& draw();
   
 };
 

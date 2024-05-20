@@ -49,7 +49,9 @@ void Player::gainChips(int i){
 
 int Player::bet(int tb, std::vector<Card>& theCards){
   if(tb > chips) return 0;
-  return std::max((double)tb,chips * calculateEHS(theCards));
+  return 80; // for now (until EHS is fixed.)
+
+  // TODO: fix -> return std::max((double)tb,chips * calculateEHS(theCards));
 }
 
 double Player::calculateEHS(std::vector<Card>& communityCards) {

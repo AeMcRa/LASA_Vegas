@@ -16,10 +16,6 @@
 *.dylib
 *.dll
 
-# Fortran module files
-*.mod
-*.smod
-
 # Compiled Static libraries
 *.lai
 *.la
@@ -31,8 +27,13 @@
 *.out
 *.app
 
-# Breakpoints and Cache
+# Breakpoints, Cache, Debug
 .breakpoints/
 .ccls-cache/
 .ccls-cache
 .breakpoints
+*.dSYM/
+
+# IDE Files
+.vscode/
+.idea/

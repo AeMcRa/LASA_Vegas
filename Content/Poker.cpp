@@ -13,19 +13,24 @@ Poker::Poker(){
 
 }
 void Poker::play() {
-    pot = 0;
-    tableBet = 0;
+    tableBet = 100;
     deck = Deck(); // New deck each round
     deck.shuffle();
 
-
     for (Player& x : players) {
-        x.draw(deck.draw());
-        x.draw(deck.draw());
+        Card c1 = deck.draw();
+        if(c1.rank == -1 && c1.suit == -1){
+            break;
+        }
+        x.draw(c1);
+        Card c2 = deck.draw();
+        if(c2.rank == -1 && c2.suit == -1){
+            break;
+        }
+        x.draw(c2);
         x.folded = false; // Reset folded status
         x.currentBet = 0; // Reset bet
     }
-
 
     for (int round = 0; round < 4; ++round) {
         getbets(round); // Handle betting for each round
@@ -33,22 +38,20 @@ void Poker::play() {
         else { table_flip(1); } 
     }
     determineWinner();
-
- 
-    cards.clear(); 
 }
 
 
 void Poker::table_flip(int numCards) {
+    std::vector<Card> commCards;
     for (int i = 0; i < numCards; ++i) {
-        cards.push_back(deck.draw());
+        commCards.push_back(deck.draw());
     }
     // Display the community cards to the players
     std::cout << "Community Cards: ";
-    for (Card& c : cards) {
+    for (Card& c : commCards) {
         std::cout << c.getName() << " ";
     }
-    std::cout << std::endl;
+    std::cout << "\n";
 }
 
 void Poker::getbets(int round) {
@@ -73,9 +76,8 @@ void Poker::determineWinner() {
         }
     }
 
-
     if (activePlayers.size() == 1) {
-        std::cout << activePlayers[0]->getName() << " wins the pot of $" << pot << "!" << std::endl;
+        std::cout << activePlayers[0]->getName() << " wins the pot of $" << pot << "!\n";
         activePlayers[0]->gainChips(pot); 
         return; 
     }

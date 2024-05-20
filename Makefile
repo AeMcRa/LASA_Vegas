@@ -1,7 +1,7 @@
 all: main
 
-CXX = clang++
-override CXXFLAGS += -g -Wmost -Werror -Wno-unused-variable
+CXX = g++
+override CXXFLAGS += -g -Wmost -Werror -Wno-unused-variable -std=c++11
 
 SRCS = $(shell find . -name '.ccls-cache' -type d -prune -o -type f -name '*.cpp' -print | sed -e 's/ /\\ /g')
 HEADERS = $(shell find . -name '.ccls-cache' -type d -prune -o -type f -name '*.h' -print)
@@ -14,3 +14,6 @@ main-debug: $(SRCS) $(HEADERS)
 
 clean:
 	rm -f main main-debug
+OSX_clean:
+	rm -f main main-debug
+	rm -rf main.dSYM

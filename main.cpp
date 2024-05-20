@@ -23,7 +23,7 @@ int main() {
         game.players.push_back(Bot("Bot " + std::to_string(i))); 
     }
 
-    
+
     while (true) { 
         game.play(); // Start a new round
         if (game.checkEndCondition()) {
@@ -35,7 +35,6 @@ int main() {
             int choice;
             std::cout << "Would you like to buy an item (Enter 0 for no)? ";
             std::cin >> choice;
-
             if (choice != 0) { 
                 vendingMachine.purchaseItem(game.players[0], choice); 
             }

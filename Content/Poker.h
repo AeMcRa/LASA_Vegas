@@ -8,7 +8,6 @@ public:
   Poker();
 
   Deck deck;
-  std::vector<Card> cards;
   std::vector<Player> players;
   int pot;
   int tableBet;
